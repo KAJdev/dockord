@@ -117,7 +117,7 @@ class Session():
     
     def make_directory(self, path):
         self.refresh()
-        split_path = (self.current_path + path).split('/')
+        split_path = path.split('/')
         current_place = self.filesystem
         for p in split_path:
             p = encode_key(p)
@@ -128,7 +128,7 @@ class Session():
                     continue
                 return False
             if split_path.index(p) == len(split_path) - 1:
-                current_place[p] = content
+                current_place[p] = {}
                 self.update({'$set': {'filesystem': self.filesystem}})
                 return True
 
