@@ -12,7 +12,7 @@ class Create(commands.Cog):
         bot.help_create = "Usage: create [FILE] [CONTENT]\ncreate FILE containing the specified CONTENT."
         
     @commands.command()
-    async def create(self, ctx, file:str=None, content:str=""):
+    async def create(self, ctx, file:str=None, *, content:str=""):
         if file is None:
             await Utils.out(ctx, "create: missing file operand")
             return

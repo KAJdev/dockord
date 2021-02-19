@@ -12,7 +12,7 @@ class Mkdir(commands.Cog):
         bot.help_mkdir = "Usage: mkdir DIRECTORY...\nCreate the DIRECTORY(ies), if they do not already exist."
         
     @commands.command()
-    async def mkdir(self, ctx, directories:str=None):
+    async def mkdir(self, ctx, *, directories:str=None):
         if directories is None:
              await Utils.out(ctx, "mkdir: missing operand")
              return

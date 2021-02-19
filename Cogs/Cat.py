@@ -12,7 +12,7 @@ class Cat(commands.Cog):
         bot.help_cat = "Usage: cat [FILE]...\nConcatenate FILE(s) to standard output."
         
     @commands.command()
-    async def cat(self, ctx, files:str=None):
+    async def cat(self, ctx, *, files:str=None):
         if files is None:
              await Utils.out(ctx, "")
              return
