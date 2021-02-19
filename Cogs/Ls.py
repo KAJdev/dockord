@@ -28,7 +28,13 @@ class Ls(commands.Cog):
         elif dir is False:
             await Utils.out(ctx, f"ls: cannot access '{path}': No such file or directory")
         else:
-            await Utils.out(ctx, '\n'.join(db.decode_key(x) for x in dir.keys()))
+            result = ""
+            for x, y in dir.items():
+                if isinstance(y, dict):
+                    result += f"{x}/\n"
+                else:
+                    result += f"{x}\n"
+            await Utils.out(ctx, result)
 
 def setup(bot):
     bot.add_cog(Ls(bot))
