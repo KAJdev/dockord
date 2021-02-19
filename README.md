@@ -1,2 +1,2 @@
 # dockord
-A discord bot to simulate a small docker home :)
+A discord bot to simulate a small psuedo linux container.
