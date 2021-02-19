@@ -24,7 +24,7 @@ class Cat(commands.Cog):
                 f = s.current_path + f
 
             content = s.read_file(f)
-            if content:
+            if content is not None:
                 result += content + "\n"
             else:
                 result += "cat: No such file or directory\n"
