@@ -22,7 +22,7 @@ class Ls(commands.Cog):
 
         dir = s.get_dir_from_path(path)
         if dir:
-            await Utils.out(ctx, '\n'.join(x for x in dir.keys()))
+            await Utils.out(ctx, '\n'.join(db.decode_key(x) for x in dir.keys()))
         else:
             await Utils.out(ctx, f"ls: cannot access '{path}': No such file or directory")
 

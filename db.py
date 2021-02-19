@@ -5,6 +5,12 @@ client = pymongo.MongoClient(os.environ.get('DOCKORD_MONGO'))
 db = client['prod']
 users = db['users']
 
+def encode_key(key):
+    return key.replace("\\", "\\\\").replace("$", "\\u0024").replace(".", "\\u002e")
+
+def decode_key(key):
+    return key.replace("\\u002e", ".").replace("\\u0024", "\$").replace("\\\\", "\\")
+
 class Session():
 
     def __init__(self, id=None):
@@ -14,7 +20,7 @@ class Session():
             r = {
                 'id': id,
                 'current_path': '/',
-                'filesystem': {'Desktop': {}, 'Documents': {}, 'hello.txt': "Welcome to dockord!"}
+                'filesystem': {'Desktop': {}, 'Documents': {}, 'hello\\u002etxt': "Welcome to dockord!"}
             }
             users.insert_one(r)
         for key, value in r.items():
@@ -24,6 +30,7 @@ class Session():
         split_path = (self.current_path + path).split('/')
         current_place = self.filesystem
         for p in split_path:
+            p = encode_key(p)
             x = current_place.get(p, None)
             if x is not None:
                 if not isinstance(x, dict):
@@ -40,6 +47,7 @@ class Session():
             split_path = (self.current_path + path).split("/")
         current_place = self.filesystem
         for p in split_path:
+            p = encode_key(p)
             next = current_place.get(p, None)
             if next is not None:
                 if isinstance(next, dict):
@@ -76,6 +84,7 @@ class Session():
         split_path = (self.current_path + path).split('/')
         current_place = self.filesystem
         for p in split_path:
+            p = encode_key(p)
             next = current_place.get(p, None)
             if next is not None:
                 if isinstance(next, dict):
