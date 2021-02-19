@@ -51,7 +51,7 @@ async def vote(ctx):
     await ctx.send(embed=discord.Embed(description="[**Vote for the bot here**](https://top.gg/bot/811777444394172466/vote)", color = config.MAINCOLOR))
 
 # Cogs
-cogs = ['StatCord', 'Ls', 'Cd', 'Mkdir', 'Cat']
+cogs = ['StatCord', 'Ls', 'Cd', 'Mkdir', 'Cat', 'Create']
 
 # Starts all cogs
 for cog in cogs:
