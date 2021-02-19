@@ -41,7 +41,7 @@ class Session():
                 return None
     
     def get_dir_from_path(self, path):
-        if new_path.startswith("/"):
+        if path.startswith("/"):
             split_path = path.split('/')
         else:
             split_path = (self.current_path + path).split("/")
