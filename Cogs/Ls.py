@@ -31,9 +31,9 @@ class Ls(commands.Cog):
             result = ""
             for x, y in dir.items():
                 if isinstance(y, dict):
-                    result += f"{x}/\n"
+                    result += f"{db.decode_key(x)}/\n"
                 else:
-                    result += f"{x}\n"
+                    result += f"{db.decode_key(x)}\n"
             await Utils.out(ctx, result)
 
 def setup(bot):
