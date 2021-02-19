@@ -19,7 +19,7 @@ class Session():
         if r is None:
             r = {
                 'id': id,
-                'current_path': '/',
+                'current_path': '',
                 'filesystem': {'Desktop': {}, 'Documents': {}, 'hello\\u002etxt': "Welcome to dockord!"}
             }
             users.insert_one(r)
@@ -27,7 +27,7 @@ class Session():
             setattr(self, key, value)
 
     def get_file_from_path(self, path):
-        split_path = (self.current_path + path).split('/')
+        split_path = (self.current_path + "/" + path).split('/')
 
         to_remove = []
         for p in split_path:
@@ -49,12 +49,12 @@ class Session():
                 return None
     
     def get_dir_from_path(self, path):
-        if path == "/":
+        if path == "/" or path == "":
             return self.filesystem
         if path.startswith("/"):
-            split_path = path[1:].split('/')
+            split_path = path.split('/')
         else:
-            split_path = (self.current_path + path).split("/")
+            split_path = (self.current_path + "/" + path).split("/")
 
         to_remove = []
         for p in split_path:
@@ -74,6 +74,7 @@ class Session():
                         return next
                     continue
                 return False
+            return False
 
     def refresh(self):
         self.__init__(self.id)
@@ -98,6 +99,23 @@ class Session():
             return False
 
     def save_file(self, path, content):
+        self.refresh()
+        split_path = path.split('/')
+        current_place = self.filesystem
+        for p in split_path:
+            p = encode_key(p)
+            next = current_place.get(p, None)
+            if next is not None:
+                if isinstance(next, dict):
+                    current_place = next
+                    continue
+                return False
+            if split_path.index(p) == len(split_path) - 1:
+                current_place[p] = content
+                self.update({'$set': {'filesystem': self.filesystem}})
+                return True
+    
+    def make_directory(self, path):
         self.refresh()
         split_path = (self.current_path + path).split('/')
         current_place = self.filesystem
