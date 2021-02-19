@@ -21,10 +21,14 @@ class Ls(commands.Cog):
                 path = s.current_path + path
 
         dir = s.get_dir_from_path(path)
-        if dir:
-            await Utils.out(ctx, '\n'.join(db.decode_key(x) for x in dir.keys()))
-        else:
+        if dir is None:
             await Utils.out(ctx, f"ls: cannot access '{path}': No such file or directory")
+        elif dir is {}:
+            await Utils.out(ctx, "")
+        elif dir is False:
+            await Utils.out(ctx, f"ls: cannot access '{path}': No such file or directory")
+        else:
+            await Utils.out(ctx, '\n'.join(db.decode_key(x) for x in dir.keys()))
 
 def setup(bot):
     bot.add_cog(Ls(bot))
