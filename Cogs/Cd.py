@@ -21,7 +21,7 @@ class Cd(commands.Cog):
                 path = s.current_path + path
 
         if s.change_directory(path):
-            await Utils.out(ctx, f"{ctx.author.name}@dockord:~{s.currnt_path}$")
+            await Utils.out(ctx, f"{ctx.author.name}@dockord:~{s.current_path}$")
         else:
             await Utils.out(ctx, f"-bash: cd: {path}: No such file or directory")
             
