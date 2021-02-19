@@ -20,6 +20,8 @@ class Mkdir(commands.Cog):
         s = db.Session(ctx.author.id)
         result = ""
         for d in directories.split(" "):
+            if not d.startswith("/"):
+                d = s.current_path + d
             if not s.make_directory(d):
                 result += f"mkdir: cannot create directory '{d}': No such file or directory\n"
         if result == "":

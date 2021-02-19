@@ -20,6 +20,9 @@ class Cat(commands.Cog):
         s = db.Session(ctx.author.id)
         result = ""
         for f in files.split(" "):
+            if not f.startswith("/"):
+                f = s.current_path + f
+
             content = s.read_file(f)
             if content:
                 result += content + "\n"
