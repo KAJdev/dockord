@@ -31,7 +31,10 @@ async def help(ctx, cmd : str = None):
         "\nls [dir]" \
         "\ncd [dir]" \
         "\ncat [FILE]..." \
+        "\ncreate [FILE] [CONTENT]" \
+        "\nrm [FILE]..." \
         "\nmkdir DIRECTORY..." \
+        "\nrmdir DIRECTORY..." \
         "\ntop" \
         "\nssh [HOST]"
         await Utils.out(ctx, help_message, "Dockord - Help Menu", str(bot.user.avatar_url))
