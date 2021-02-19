@@ -131,6 +131,26 @@ class Session():
                 current_place[p] = {}
                 self.update({'$set': {'filesystem': self.filesystem}})
                 return True
+    
+    def remove_directory(self, path):
+        self.refresh()
+        split_path = path.split('/')
+        current_place = self.filesystem
+        for p in split_path:
+            p = encode_key(p)
+            next = current_place.get(p, None)
+            if next is not None:
+                if isinstance(next, dict):
+                    current_place = next
+                    continue
+                return False
+            if split_path.index(p) == len(split_path) - 1:
+                if isinstance(next, dict):
+                    del next
+                    self.update({'$set': {'filesystem': self.filesystem}})
+                    return True
+                else:
+                    return False
 
     def read_file(self, path):
         self.refresh()
