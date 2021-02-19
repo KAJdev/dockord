@@ -28,6 +28,14 @@ class Session():
 
     def get_file_from_path(self, path):
         split_path = (self.current_path + path).split('/')
+
+        to_remove = []
+        for p in split_path:
+            if p == "":
+                to_remove.append(p)
+        for p in to_remove:
+            split_path.remove(p)
+
         current_place = self.filesystem
         for p in split_path:
             p = encode_key(p)
@@ -44,9 +52,17 @@ class Session():
         if path == "/":
             return self.filesystem
         if path.startswith("/"):
-            split_path = path.split('/')
+            split_path = path[1:].split('/')
         else:
             split_path = (self.current_path + path).split("/")
+
+        to_remove = []
+        for p in split_path:
+            if p == "":
+                to_remove.append(p)
+        for p in to_remove:
+            split_path.remove(p)
+
         current_place = self.filesystem
         for p in split_path:
             p = encode_key(p)
