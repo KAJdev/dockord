@@ -28,4 +28,4 @@ class Mkdir(commands.Cog):
             
 
 def setup(bot):
-    bot.add_cog(Cd(bot))
+    bot.add_cog(Mkdir(bot))
