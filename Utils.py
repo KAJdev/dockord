@@ -67,16 +67,18 @@ class Session():
         r = user.delete_one({'id': self.id})
         return r
 
-    def send_command(self, command):
+    def send_command(self, command, name):
         if self.container is None:
-            self.create_container()
+            self.create_container(name)
         exit_code, output = self.container.exec_run(command)
         return exit_code, output
     
-    def create_container(self):
+    def create_container(self, name):
         if self.container is not None:
             self.container.remove(force=True)
-        self.container = docker_client.containers.run('archlinux', detach=True, mem_limit="32m", command="/usr/bin/bash", auto_remove=False, remove=False)
+        self.container = docker_client.containers.run('archlinux', detach=True, mem_limit="32m", name=name)
+        if self.container.status != "running":
+                self.container.start()
         self.last_command = datetime.datetime.utcnow()
         self.update({'$set': {'container': self.container.id, 'last_command': self.last_command}}, False)
         return True
