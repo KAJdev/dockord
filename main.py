@@ -11,7 +11,7 @@ logging.basicConfig(level = logging.INFO, format="Dockord [%(levelname)s] | %(me
 bot_application = None
 
 async def get_prefix(bot, message):
-    return commands.when_mentioned_or("$")(bot, message)
+    return commands.when_mentioned_or(">")(bot, message)
 
 intents = discord.Intents.default()
 intents.members = True
@@ -26,17 +26,7 @@ async def help(ctx, cmd : str = None):
     if cmd is None:
         help_message = f"DOCKORD, version {config.VERSION} (discord.py {discord.__version__})" \
         "\nPrefixing your message with '$' will send a command to your Dockord Console." \
-        "\nType 'help name' to find out more about the function 'name'" \
-        "\n" \
-        "\nls [dir]" \
-        "\ncd [dir]" \
-        "\ncat [FILE]..." \
-        "\ncreate [FILE] [CONTENT]" \
-        "\nrm [FILE]..." \
-        "\nmkdir DIRECTORY..." \
-        "\nrmdir DIRECTORY..." \
-        "\ntop" \
-        "\nssh [HOST]"
+        "\nType 'help name' to find out more about the function 'name'"
         await Utils.out(ctx, help_message, "Dockord - Help Menu", str(bot.user.avatar_url))
     else:
         try:
@@ -54,7 +44,7 @@ async def vote(ctx):
     await ctx.send(embed=discord.Embed(description="[**Vote for the bot here**](https://top.gg/bot/811777444394172466/vote)", color = config.MAINCOLOR))
 
 # Cogs
-cogs = ['StatCord', 'Ls', 'Cd', 'Mkdir', 'Cat', 'Create', 'Rm', 'Rmdir']
+cogs = ['StatCord', 'Passthrough']
 
 # Starts all cogs
 for cog in cogs:
