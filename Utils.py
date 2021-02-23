@@ -74,7 +74,7 @@ class Session():
     def create_container(self):
         if self.container is not None:
             self.container.remove(force=True)
-        self.container = docker_client.containers.run('archlinux', detach=True, mem_limit="32m", command="/usr/bin/bash", auto_remove=False, remove=False)
+        self.container = docker_client.containers.run('archlinux', detach=False, mem_limit="32m", command="/usr/bin/bash", auto_remove=False, remove=False)
         print(self.container)
         print(self.container.id)
         print(self.container.name)
