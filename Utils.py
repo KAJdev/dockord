@@ -76,7 +76,7 @@ class Session():
     def create_container(self):
         if self.container is not None:
             self.container.remove(force=True)
-        self.container = docker_client.containers.run('archlinux', detach=True, hostname="dockord", mem_limit="32m")
+        self.container = docker_client.containers.run('archlinux', detach=True, hostname="dockord", mem_limit="32m", command="/usr/bin/bash")
         self.last_command = datetime.datetime.utcnow()
         self.update({'$set': {'container': self.container.id, 'last_command': self.last_command}}, False)
         return True
