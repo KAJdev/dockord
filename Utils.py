@@ -49,7 +49,8 @@ class Session():
 
         try:
             self.container = docker_client.containers.get(self.container)
-            print(self.container)
+            if self.container.status != "running":
+                self.container.start()
         except Exception as e:
             self.container = None
 
@@ -75,10 +76,7 @@ class Session():
     def create_container(self):
         if self.container is not None:
             self.container.remove(force=True)
-        self.container = docker_client.containers.run('archlinux', detach=False, mem_limit="32m", command="/usr/bin/bash", auto_remove=False, remove=False)
-        print(self.container)
-        print(self.container.id)
-        print(self.container.name)
+        self.container = docker_client.containers.run('archlinux', detach=True, mem_limit="32m", command="/usr/bin/bash", auto_remove=False, remove=False)
         self.last_command = datetime.datetime.utcnow()
         self.update({'$set': {'container': self.container.id, 'last_command': self.last_command}}, False)
         return True
