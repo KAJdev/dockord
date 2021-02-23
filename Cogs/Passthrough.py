@@ -14,7 +14,7 @@ class Passthrough(commands.Cog):
         
         if message.content.startswith("$"):
             code, output = Session(message.author.id).send_command(message.content[1:])
-            await Utils.reply(message.channel, output)
+            await Utils.reply(message, output)
 
 
 
