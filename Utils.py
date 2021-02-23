@@ -49,6 +49,7 @@ class Session():
 
         try:
             self.container = docker_client.containers.get(self.container)
+            print(self.container)
         except Exception as e:
             self.container = None
 
