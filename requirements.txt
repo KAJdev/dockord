@@ -1,3 +1,4 @@
-discord[voice]
+discord
 pymongo[srv]
 docker
+statcord.py
