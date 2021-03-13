@@ -30,17 +30,21 @@ class Session():
 		r = users.find_one({'id': id})
 		if r is None:
 			r = {
-				'id': id,
-				'container': None,
-				'last_command': datetime.datetime.utcnow()
+				"id": id,
+				"container": None,
+				"last_command": datetime.datetime.utcnow()
 			}
 			users.insert_one(r)
 		for key, value in r.items():
 			setattr(self, key, value)
 		if self.container is not None:
-			self.container = docker_client.containers.get(self.container)
-			if self.container.status != "running":
-				self.container.start()
+			try:
+				self.container = docker_client.containers.get(self.container)
+				if self.container.status != "running":
+					self.container.start()
+			except docker.errors.NotFound:
+				self.update({"$set": {"container": None}})
+				self.refresh()
 
 	def refresh(self):
 		self.__init__(self.id)
