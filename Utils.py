@@ -68,12 +68,12 @@ class Session():
 	def create_container(self, name):
 		if self.container is not None and type(self.container) is docker.models.containers.Container:
 			self.container.remove(force=True)
-		if not any(["archlinux" in x.tags[0] for x in docker_client.images.list()]):
-			logging.info("Fetching docker image 'archlinux'.")
-			docker_client.images.pull("archlinux")
-			logging.info("Finished fetching 'archlinux'.")
+		if not any(["dockord/alpine" in x.tags[0] for x in docker_client.images.list()]):
+			logging.info("Fetching docker image 'dockord/alpine'.")
+			docker_client.images.pull("dockord/alpine")
+			logging.info("Finished fetching 'dockord/alpine'.")
 		self.container = docker_client.containers.create(
-			'archlinux',
+			'dockord/alpine',
 			detach=True,
 			mem_limit="32m",
 			name=name,
