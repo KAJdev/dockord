@@ -62,7 +62,9 @@ class Session():
 	def send_command(self, command: str):
 		if self.container.status != "running":
 			self.container.start()
-		exit_code, output = self.container.exec_run(command)
+		# TODO: add timeouts or non-blocking functionality
+		exit_code, output = self.container.exec_run(
+			f"/bin/sh -c {repr(command)}", tty=True)
 		return exit_code, output
 
 	def create_container(self, name):
