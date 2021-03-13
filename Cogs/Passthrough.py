@@ -17,7 +17,7 @@ class Passthrough(commands.Cog):
 				message.content[1:],
 				str(message.author.id)
 			)
-			await Utils.reply(message, output)
+			await message.channel.send(embed=Utils.gen_embed(message, output))
 
 
 def setup(bot):

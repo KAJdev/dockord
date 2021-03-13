@@ -16,7 +16,7 @@ class Core(commands.Cog):
 				help_message = self.bot.__getattribute__(f"help_{cmd.lower()}")
 			except AttributeError:
 				help_message = f"-sh: help: no help topics match `{cmd}'."
-			return ctx.send(embed=Utils.gen_embed(ctx, help_message))
+			return await ctx.send(embed=Utils.gen_embed(ctx, help_message))
 		help_message = f"""
 			DOCKORD, version {config.VERSION} (discord.py {discord.__version__})
 			Prefixing your message with \"$\" will send a command to your Dockord Console.
