@@ -25,8 +25,7 @@ def gen_embed(ctx, output, title=None, img=None):
 
 
 class Session():
-	def __init__(self, id=None):
-		super().__init__()
+	def __init__(self, id: str = None):
 		r = users.find_one({'id': id})
 		if r is None:
 			r = {
@@ -43,24 +42,28 @@ class Session():
 				if self.container.status != "running":
 					self.container.start()
 			except docker.errors.NotFound:
-				self.update({"$set": {"container": None}})
+				self.create_container(id)
 				self.refresh()
+		else:
+			self.create_container(id)
+			self.refresh()
 
 	def refresh(self):
 		self.__init__(self.id)
 
-	def update(self, update, refresh=True):
+	def update(self, update: dict, refresh: bool = True):
 		r = users.update_one({'id': self.id}, update)
 		if refresh:
 			self.refresh()
 		return r
 
 	def delete(self):
+		self.container.remove(force=True)
 		return users.delete_one({'id': self.id})
 
-	def send_command(self, command, name):
-		if self.container is None:
-			self.create_container(name)
+	def send_command(self, command: str):
+		if self.container.status != "running":
+			self.container.start()
 		exit_code, output = self.container.exec_run(command)
 		return exit_code, output
 
@@ -68,12 +71,15 @@ class Session():
 		if self.container is not None:
 			self.container.remove(force=True)
 		if not any(["archlinux" in x.tags[0] for x in docker_client.images.list()]):
-			logging.info("Fetching docker image 'archlinux'")
+			logging.info("Fetching docker image 'archlinux'.")
 			docker_client.images.pull("archlinux")
-		self.container = docker_client.containers.run(
-			'archlinux', detach=True, mem_limit="32m", name=name)
-		if self.container.status != "running":
-			self.container.start()
+			logging.info("Finished fetching 'archlinux'.")
+		self.container = docker_client.containers.create(
+			'archlinux',
+			detach=True,
+			mem_limit="32m",
+			name=name
+		)
 		self.last_command = datetime.datetime.utcnow()
 		self.update({'$set': {'container': self.container.id,
                         'last_command': self.last_command}}, False)

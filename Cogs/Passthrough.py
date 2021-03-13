@@ -13,10 +13,7 @@ class Passthrough(commands.Cog):
 			return
 
 		if message.content.startswith("$"):
-			code, output = Session(message.author.id).send_command(
-				message.content[1:],
-				str(message.author.id)
-			)
+			code, output = Session(message.author.id).send_command(message.content[1:])
 			await message.channel.send(embed=Utils.gen_embed(message, output))
 
 
