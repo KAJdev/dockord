@@ -67,7 +67,7 @@ class Session():
 		return exit_code, output
 
 	def create_container(self, name):
-		if self.container is not None:
+		if self.container is not None and type(self.container) is docker.models.containers.Container:
 			self.container.remove(force=True)
 		if not any(["archlinux" in x.tags[0] for x in docker_client.images.list()]):
 			logging.info("Fetching docker image 'archlinux'.")
