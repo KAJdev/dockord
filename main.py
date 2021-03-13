@@ -29,19 +29,14 @@ bot = commands.Bot(command_prefix=get_prefix,
 # Remove default help command
 bot.remove_command("help")
 
-
-# TODO: automatic cog detection
-# Cogs
-cogs = ['Core', 'StatCord', 'Passthrough']
-
-# Starts all cogs
+# Loads cogs
+cogs = [cog.split("/", maxsplit=1)[1][:-3] for cog in glob.glob("Cogs/*.py")]
 for cog in cogs:
 	bot.load_extension(f"Cogs.{cog}")
 
-# Check to see if the user invoking the command is in the OWNERIDS config
-
 
 def owner(ctx):
+	"""Check to see if the user invoking the command is in the OWNERIDS config"""
 	if bot_application is None:
 		return False
 	if bot_application.team:
@@ -49,14 +44,12 @@ def owner(ctx):
 	else:
 		return ctx.author.id == bot_application.owner.id
 
-# Restarts and reloads all cogs
-
 
 @bot.command(aliases=["retard"])
 @commands.check(owner)
 async def restart(ctx):
 	"""
-	Restart the bot.
+	Restart the bot and reload all cogs.
 	"""
 	restarting = discord.Embed(
 		title="Restarting...",
@@ -87,8 +80,6 @@ async def on_guild_remove(guild):
 	logging.info(f"LEFT guild {guild.name} | current guilds: {len(bot.guilds)}")
 	await bot.change_presence(activity=discord.Activity(type=discord.ActivityType.watching, name=f"{len(bot.users)} Dockords | $help"))
 
-# Command error
-
 
 @bot.event
 async def on_command_error(ctx, error):
@@ -102,8 +93,6 @@ async def on_command_error(ctx, error):
 		)
 		await ctx.send(embed=embed)
 		raise error
-
-# On ready
 
 
 @bot.event
@@ -122,5 +111,4 @@ async def on_ready():
 	bot_application = await bot.application_info()
 
 
-# Starts bot
 bot.run(os.environ.get('DOCKORD_TOKEN'))
