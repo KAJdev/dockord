@@ -39,8 +39,6 @@ class Session():
 		if self.container is not None:
 			try:
 				self.container = docker_client.containers.get(self.container)
-				if self.container.status != "running":
-					self.container.start()
 			except docker.errors.NotFound:
 				self.create_container(id)
 				self.refresh()
@@ -65,6 +63,7 @@ class Session():
 		if self.container.status != "running":
 			self.container.start()
 		exit_code, output = self.container.exec_run(command)
+		self.container.kill()
 		return exit_code, output
 
 	def create_container(self, name):
