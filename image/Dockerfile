@@ -7,7 +7,8 @@ RUN	echo -e "Initializing packages"; \
 WORKDIR	/home/sandbox
 RUN	echo -e "Creating sandbox user"; \
 	adduser -h /home/sandbox -s /bin/sh -D sandbox
+USER	sandbox
 ENV	HOME="/home/sandbox"
 ENV	PATH="$PATH:$HOME:$HOME/.config/bin"
 COPY	homeinstance/* .
-CMD	["/bin/sh", "-c", "su - sandbox"]
+CMD	["/bin/sh"]
