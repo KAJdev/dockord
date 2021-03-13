@@ -78,15 +78,13 @@ async def restart(ctx):
 
 @bot.event
 async def on_guild_join(guild):
-	logging.info("JOINED guild " + guild.name +
-	             " | current guilds: " + str(len(bot.guilds)))
+	logging.info(f"JOINED guild {guild.name} | current guilds: {len(bot.guilds)}")
 	await bot.change_presence(activity=discord.Activity(type=discord.ActivityType.watching, name=f"{len(bot.users)} Dockords | $help"))
 
 
 @bot.event
 async def on_guild_remove(guild):
-	logging.info("LEFT guild " + guild.name +
-	             " | current guilds: " + str(len(bot.guilds)))
+	logging.info(f"LEFT guild {guild.name} | current guilds: {len(bot.guilds)}")
 	await bot.change_presence(activity=discord.Activity(type=discord.ActivityType.watching, name=f"{len(bot.users)} Dockords | $help"))
 
 # Command error

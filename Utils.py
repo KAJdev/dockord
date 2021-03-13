@@ -37,13 +37,10 @@ class Session():
 			users.insert_one(r)
 		for key, value in r.items():
 			setattr(self, key, value)
-		try:
+		if self.container is not None:
 			self.container = docker_client.containers.get(self.container)
 			if self.container.status != "running":
 				self.container.start()
-		except Exception as e:
-			logging.exception(e)
-			self.container = None
 
 	def refresh(self):
 		self.__init__(self.id)
