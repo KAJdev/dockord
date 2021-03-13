@@ -63,7 +63,6 @@ class Session():
 		if self.container.status != "running":
 			self.container.start()
 		exit_code, output = self.container.exec_run(command)
-		self.container.kill()
 		return exit_code, output
 
 	def create_container(self, name):
@@ -77,7 +76,8 @@ class Session():
 			'archlinux',
 			detach=True,
 			mem_limit="32m",
-			name=name
+			name=name,
+			tty=True
 		)
 		self.last_command = datetime.datetime.utcnow()
 		self.update({'$set': {'container': self.container.id,
