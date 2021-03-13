@@ -10,9 +10,6 @@ case $1 in
 		remove	- remove the image"
 	;;
 "build")
-	if [[ $# -lt 2 ]]; then
-		echo "Usage: ./dock build <tag>"
-	fi
 	docker build -t dockord/alpine:latest -t dockord/alpine:$2 .
 	;;
 "run")

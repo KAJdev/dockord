@@ -1,7 +1,7 @@
+FROM	alpine:latest
 LABEL	maintainers="github.com/kajdev; github.com/nytelife26" \
 	vendor="KAJdev & KCS Ltd." \
 	description="A custom Alpine build for usage on Dockord."
-FROM	alpine:latest
 RUN	echo -e "Initializing packages"; \
 	apk add binutils findutils curl grep sed
 WORKDIR	/home/sandbox
