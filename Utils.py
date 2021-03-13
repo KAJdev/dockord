@@ -63,6 +63,9 @@ class Session():
 	def create_container(self, name):
 		if self.container is not None:
 			self.container.remove(force=True)
+		if not any(["archlinux" in x.tags()[0] for x in docker_client.images.list()]):
+			logger.info("Fetching docker image 'archlinux'")
+			docker_client.images.pull("archlinux")
 		self.container = docker_client.containers.run(
 			'archlinux', detach=True, mem_limit="32m", name=name)
 		if self.container.status != "running":
