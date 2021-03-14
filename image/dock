@@ -1,0 +1,24 @@
+#!/bin/sh
+case $1 in
+"help"|"--help"|"-h")
+	echo "Usage: ./dock <command>
+
+	commands:
+		build	- build the docker image
+		run 	- run the container
+		deploy	- push the image
+		remove	- remove the image"
+	;;
+"build")
+	docker build -t dockord/alpine:latest -t dockord/alpine:$2 .
+	;;
+"run")
+	docker container run -it dockord/alpine /bin/sh
+	;;
+"deploy")
+	docker push dockord/alpine
+	;;
+"remove")
+	docker rmi -f dockord/alpine
+	;;
+esac
