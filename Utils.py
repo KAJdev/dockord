@@ -15,13 +15,15 @@ docker_client = docker.from_env()
 
 
 def gen_embed(ctx, output, title=None, img=None):
-	embed = discord.Embed(
-		color=config.MAINCOLOR,
-		description=f"```\n{output}```"
-	)
 	if title is not None:
+		embed = discord.Embed(
+			color=config.MAINCOLOR,
+			description=f"```\n{output}```"
+		)
 		embed.set_author(name=title, icon_url=img)
-	return embed
+		return embed
+	return f"```\n{output}```"
+	
 
 
 class Session():
