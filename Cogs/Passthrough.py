@@ -14,7 +14,11 @@ class Passthrough(commands.Cog):
 
 		if message.content.startswith("$"):
 			code, output = Session(message.author.id).send_command(message.content[1:])
-			await message.channel.send(embed=Utils.gen_embed(message, output.decode("utf-8")))
+			msg = Utils.gen_embed(message, output.decode("utf-8"))
+			if isinstance(msg, discord.Embed):
+				await message.channel.send(embed=msg)
+			else:
+				await message.channel.send(msg)
 
 
 def setup(bot):
