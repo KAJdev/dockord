@@ -17,7 +17,7 @@ bot_application = None
 
 
 async def get_prefix(bot, message):
-	return commands.when_mentioned_or("d!")(bot, message)
+	return commands.when_mentioned_or("$")(bot, message)
 
 intents = discord.Intents.default()
 intents.members = True
