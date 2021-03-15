@@ -32,6 +32,7 @@ bot.remove_command("help")
 # Loads cogs
 cogs = [cog.split("/", maxsplit=1)[1][:-3] for cog in glob.glob("Cogs/*.py")]
 for cog in cogs:
+	print(f"loading cog {cog}")
 	bot.load_extension(f"Cogs.{cog}")
 
 
