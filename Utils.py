@@ -15,6 +15,8 @@ docker_client = docker.from_env()
 
 
 def gen_embed(ctx, output, title=None, img=None):
+	if output == "":
+		output = "Command Executed."
 	if title is not None:
 		embed = discord.Embed(
 			color=config.MAINCOLOR,
